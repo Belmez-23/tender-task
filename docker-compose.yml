@@ -1,19 +1,26 @@
 version: '3.8'
 
+networks:
+  project:
+    driver: bridge
+
 services:
   nginx:
+    container_name: ${PROJECT_NAME}-nginx
     build:
       context: ./docker/nginx
     volumes:
       - ./app:/symfony
-    container_name: ${PROJECT_NAME}-nginx
     restart: always
     ports:
       - "8081:80"
     links:
       - php-fpm
+    networks:
+      - project
 
   php-fpm:
+    container_name: ${PROJECT_NAME}-php
     build:
       context: ./docker/php-fpm
     volumes:
@@ -23,22 +30,28 @@ services:
       XDEBUG_SESSION: PHPSTORM
       PHP_IDE_CONFIG: "serverName=Tenders"
     restart: always
-    container_name: ${PROJECT_NAME}-php
     extra_hosts:
       - "host.docker.internal:$DOCKER_INTERNAL_IP"
       - "api.local:$DOCKER_INTERNAL_IP"
+    networks:
+      - project
 
-  mysql:
-    image: mysql:8.0
-    command: --mysql-native-password=ON
-    volumes:
-      - ./docker/mysql:/var/lib/mysql
-    container_name: ${PROJECT_NAME}-mysql
-    restart: always
-    ports:
-      - "3309:3309"
+  db:
+    container_name: ${PROJECT_NAME}-db
+    image: mysql:8
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --max_connections=666
+      --bind-address=0.0.0.0
+      --transaction-isolation=READ-COMMITTED
     environment:
-      MYSQL_ROOT_PASSWORD: 62876087
+      MYSQL_ROOT_PASSWORD: tenders
       MYSQL_DATABASE: tenders
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_USER: tenders
+      MYSQL_PASSWORD: tenders
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/mysql/init/my.cnf:/etc/mysql/my.cnf
