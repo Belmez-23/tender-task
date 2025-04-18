@@ -7,7 +7,7 @@
 ## Развёртка проекта
 В проекте настроены Docker-контейнеры, поднять их можно командой `make docker-local`
 
-Для для создания и наполнения базы данных потребуется выполнить миграции `php bin/console doctrine:migrations:migrate`
+Для создания и наполнения базы данных потребуется выполнить миграции `php bin/console doctrine:migrations:migrate`
 
 И импорт тендеров из csv-файла `php bin/console tenders:import:csv`
 
