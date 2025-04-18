@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "25e0fe37-9b14-47ef-b1bf-3df499b87777",
+		"name": "Тендеры",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "17714326"
+	},
+	"item": [
+		{
+			"name": "get list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/tenders?date=2022-08-14&name=Приобретение&page=0&limit=20",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"tenders"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2022-08-14"
+						},
+						{
+							"key": "name",
+							"value": "Приобретение"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Тестовый тендер\",\n    \"externalId\": 62876087,\n    \"number\": \"123-456\",\n    \"status\": \"Открыт\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host}}/tenders/5418"
+			},
+			"response": []
+		},
+		{
+			"name": "add new",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Тестовый тендер\",\n    \"externalId\": 62876087,\n    \"number\": \"123-456\",\n    \"status\": \"Открыт\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host}}/tenders/"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}
