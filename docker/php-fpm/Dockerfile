@@ -45,7 +45,6 @@ RUN apt-get update --fix-missing && \
 # Composer
 COPY --from=composer:2.6.2 /usr/bin/composer /usr/bin/composer
 
-# В соответствие с dev/боем
 RUN sed -i 's|DEFAULT@SECLEVEL=2|DEFAULT@SECLEVEL=1|g' /etc/ssl/openssl.cnf
 
 WORKDIR /symfony
