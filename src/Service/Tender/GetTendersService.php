@@ -6,6 +6,7 @@ use App\Entity\Tender;
 use App\Repository\TenderRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class GetTendersService implements GetTendersInterface
 {
@@ -31,6 +32,23 @@ class GetTendersService implements GetTendersInterface
         $qb = $this->repository->createQueryBuilder('t')
             ->orderBy('t.updatedAt', 'ASC');
 
+        $this->filterTenders($qb, $name, $date);
+
+        return $qb->setFirstResult($page * $limit)->setMaxResults($limit)->getQuery()->getResult() ?: null;
+    }
+
+    public function getTenderCount(?string $name, ?DateTimeImmutable $date): int
+    {
+        $qb = $this->repository->createQueryBuilder('t')
+            ->select('COUNT(t.id)');
+
+        $this->filterTenders($qb, $name, $date);
+
+        return $qb->getQuery()->getSingleScalarResult() ?: 0;
+    }
+
+    private function filterTenders(QueryBuilder &$qb, ?string $name, ?DateTimeImmutable $date): void
+    {
         if ($name) {
             $qb->andWhere('t.name LIKE :name')
                 ->setParameter('name', '%'.$name.'%');
@@ -40,8 +58,6 @@ class GetTendersService implements GetTendersInterface
             $qb->andWhere('DATE_FORMAT(t.updatedAt, \'%Y-%m-%d\') = :date')
                 ->setParameter('date', $date->format('Y-m-d'));
         }
-
-        return $qb->setFirstResult($page * $limit)->setMaxResults($limit)->getQuery()->getResult() ?: null;
     }
 
     public function getTender(int $id): ?Tender

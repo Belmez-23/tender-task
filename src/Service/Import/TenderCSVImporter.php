@@ -4,14 +4,14 @@ namespace App\Service\Import;
 
 use App\Model\TenderCsvDTO;
 use App\Service\Reader\CSVReader;
-use App\Service\Tender\AddTenderInterface;
+use App\Service\Tender\ImportTenderInterface;
 
 class TenderCSVImporter
 {
     private CSVReader $csvReader;
-    private AddTenderInterface $tenderService;
+    private ImportTenderInterface $tenderService;
 
-    public function __construct(CSVReader $csvReader, AddTenderInterface $tenderService)
+    public function __construct(CSVReader $csvReader, ImportTenderInterface $tenderService)
     {
         $this->csvReader = $csvReader;
         $this->tenderService = $tenderService;

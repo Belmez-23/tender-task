@@ -3,10 +3,13 @@
 namespace App\Service\Tender;
 
 use App\Entity\Tender;
-use App\Model\TenderCsvDTO;
+use App\Model\TenderDTO;
 use Doctrine\ORM\EntityManagerInterface;
 
-class TenderFromCsvService implements AddTenderInterface
+/**
+ * @implements AddTenderInterface<TenderDTO>
+ */
+class AddTenderService implements AddTenderInterface
 {
     private EntityManagerInterface $em;
 
@@ -16,8 +19,8 @@ class TenderFromCsvService implements AddTenderInterface
     }
 
     /**
-     * @param TenderCsvDTO $dto
-     * @return ?Tender
+     * @param TenderDTO $dto
+     * @return Tender|null
      */
     public function addTender($dto): ?Tender
     {
