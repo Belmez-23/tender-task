@@ -37,7 +37,7 @@ class GetTendersService implements GetTendersInterface
         }
 
         if ($date) {
-            $qb->andWhere('DATE_FORMAT(t.updatedAt, "%Y-%m-%d") = :date')
+            $qb->andWhere('DATE_FORMAT(t.updatedAt, \'%Y-%m-%d\') = :date')
                 ->setParameter('date', $date->format('Y-m-d'));
         }
 
