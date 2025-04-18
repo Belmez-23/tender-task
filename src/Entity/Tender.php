@@ -25,6 +25,9 @@ class Tender
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
+    #[ORM\Column]
+    private ?int $externalId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Tender
     public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getExternalId(): ?int
+    {
+        return $this->externalId;
+    }
+
+    public function setExternalId(int $externalId): static
+    {
+        $this->externalId = $externalId;
 
         return $this;
     }

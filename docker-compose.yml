@@ -44,6 +44,7 @@ services:
       --max_connections=666
       --bind-address=0.0.0.0
       --transaction-isolation=READ-COMMITTED
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: tenders
       MYSQL_DATABASE: tenders
